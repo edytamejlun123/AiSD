@@ -1,1 +1,57 @@
 
+# def numbers(n: int) -> None:
+#
+#     if n < 0:
+#         return
+#
+#     print(f'n: {n}')
+#     numbers(n - 1)
+#
+# numbers(10)
+
+# # zad 2
+# def fib(n: int) -> int:
+#     if n ==0 :
+#         return 0
+#     elif n ==1:
+#         return 1
+#     elif n<0:
+#         return -100000
+#     else:
+#         return fib(n-1)+fib(n-2)
+#
+# print(fib(2))
+# print(fib(0))
+# print(fib(4))
+# print(fib(-6))
+
+# zad 3
+# def power(number: int, n: int) -> int:
+#     if n == 1:
+#         return number
+#     return power(number, n-1)*number
+#
+# print(power(5, 3))
+# print(power(2, 10))
+
+# # zad 4
+# def reserve(txt: str) -> str:
+#
+#
+# # zad 5
+# def factorial(n: int) -> int:
+#     if n == 1:
+#         return n
+#     return factorial(n-1)*n
+# print(factorial(5))
+# print(factorial(3))
+
+# zad 6
+def prime(n: int) -> bool:
+    if n < 3:
+        return True
+    if n%prime(n-1)==0 :
+        return prime(n-1)
+    return False
+print(prime(11))
+
