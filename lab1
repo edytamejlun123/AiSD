@@ -42,7 +42,6 @@ print('Hello World :(')
 # while(a!=100 or a>100):
 #     b = input()
 #     a += b
-b = (input()
 
 # # zad7
 # def krotka(lista):
