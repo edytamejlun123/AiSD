@@ -7,7 +7,7 @@ class BinaryNode:
     left_child: BinaryNode
     right_child: BinaryNode
 
-    def __init__(self, value: Any = None) -> None:
+    def __init__(self, value: Any) -> None:
         self.value = value
         self.left_child = None
         self.right_child = None
@@ -19,6 +19,10 @@ class BinaryNode:
             counter = counter.left_child
 
         return counter
+
+    def __str__(self) -> str:
+        return f"{self.value}, \nlewe dziecko: {self.left_child}," \
+               f"prawe dziecko{self.right_child}"
 
 
 class BinarySearchTree:
@@ -36,42 +40,39 @@ class BinarySearchTree:
     #         self.root.right_child = self._insert(self.root.right_child, value)
     #
     #     return BinaryNode(value)
+    def insert(self, value: Any) -> None:
+        self.root = self._insert(self.root, value)
 
     def _insert(self, node: BinaryNode, value: Any) -> BinaryNode:
-        if value < node.value:
-            if node.left_child is None:
-                node.left_child = BinaryNode(value)
-            self._insert(node.left_child, value)
+        if node:
+            if value < node.value:
+                node.left_child = self._insert(node.left_child, value)
 
-        if value >= node.value:
-            self._insert(node.right_child, value)
+            if value >= node.value:
+                node.right_child = self._insert(node.right_child, value)
+        else:
+            node = BinaryNode(value)
+        return node
 
-        return BinaryNode(value)
 
-    def insert(self, value: Any) -> None:
-        a: BinaryNode = BinaryNode(value)
-        self._insert(a, value)
-        self.root = a
 
     def insert_list(self, lista: List[Any]) -> None:
         for i in lista:
             self.insert(i)
 
     def contains(self, value: Any) -> bool:
+        counter = self.root
+        while counter:
+            if value < counter.value:
+                counter = counter.left_child
 
-        if value < self.root.value:
-            self.root = self.root.left_child
-            self.contains(value)
+            if value > counter.value:
+                counter = counter.right_child
 
-        elif value > self.root.value:
-            self.root = self.root.right_child
-            self.contains(value)
+            if value == counter.value:
+                return True
 
-        elif value == self.root.value:
-            return True
-
-        else:
-            return False
+        return False
 
     # def _remove(self, node: 'BinaryNode', value: Any) -> 'BinaryNode':
     #     if self.root.left_child is None and self.root.right_child is None:

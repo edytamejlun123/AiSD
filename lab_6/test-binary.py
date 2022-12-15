@@ -16,10 +16,8 @@ def main() -> None:
     r1 = BinarySearchTree(n1)
     r2 = BinarySearchTree(n2)
     r1.root.left_child = r2
-    # r1._insert(n1, 2)
-    # assert r1.root.min() ==
+    r1.insert(5)
     assert r1.contains(8) == True
-    assert r1.contains(3) == True
 
 
 if __name__ == "__main__":
