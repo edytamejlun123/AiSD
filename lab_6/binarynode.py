@@ -1,5 +1,6 @@
 from __future__ import annotations
 from typing import Any, List
+from graphviz import *
 
 
 class BinaryNode:
@@ -21,8 +22,17 @@ class BinaryNode:
         return counter
 
     def __str__(self) -> str:
-        return f"{self.value}, \nlewe dziecko: {self.left_child}," \
-               f"prawe dziecko{self.right_child}"
+        return f"{self.value}"
+
+    def show(self, g=Digraph('g')):
+        g.node(str(self), str(self), shape='circle')
+        if self.left_child:
+            g.edge(str(self), str(self.left_child), color='red')
+            self.left_child.show()
+        if self.right_child:
+            g.edge(str(self), str(self.right_child), color='blue')
+            self.right_child.show()
+        return g
 
 
 class BinarySearchTree:
@@ -41,20 +51,22 @@ class BinarySearchTree:
     #
     #     return BinaryNode(value)
     def insert(self, value: Any) -> None:
-        self.root = self._insert(self.root, value)
+        self.root = self.__insert(self.root, value)
 
-    def _insert(self, node: BinaryNode, value: Any) -> BinaryNode:
+    def __insert(self, node: BinaryNode, value: Any) -> BinaryNode:
         if node:
             if value < node.value:
-                node.left_child = self._insert(node.left_child, value)
+                node.left_child = self.__insert(node.left_child, value)
 
-            if value >= node.value:
-                node.right_child = self._insert(node.right_child, value)
+            elif value == node.value:
+                print(f"{node.value} -> ta wartość już jest w drzewie.")
+
+            if value > node.value:
+                node.right_child = self.__insert(node.right_child, value)
+
         else:
             node = BinaryNode(value)
         return node
-
-
 
     def insert_list(self, lista: List[Any]) -> None:
         for i in lista:
@@ -74,14 +86,33 @@ class BinarySearchTree:
 
         return False
 
-    # def _remove(self, node: 'BinaryNode', value: Any) -> 'BinaryNode':
-    #     if self.root.left_child is None and self.root.right_child is None:
-    #         self.root = node
-    #         del node
-    #     if self.root.value > value:
+    def remove(self, value: Any) -> None:
+        if self.contains(value):
+            self.root = self.__remove(self.root, value)
 
-    def __str__(self) -> str:
-        wynik = ''
-        if self.root:
-            if self.root.value:
-                wynik += (str(self.root.value) + '->')
+    def __remove(self, node: BinaryNode, value: Any) -> BinaryNode:
+        if value == node.value:
+
+            if node.left_child and node.right_child:
+                node.value = node.right_child.min().value
+                node.right_child = self.__remove(node.right_child, node.right_child.min().value)
+
+            elif node.left_child:
+                node = node.left_child
+
+            elif node.right_child:
+                node = node.right_child
+
+            else:
+                node.value = 0
+
+        elif value < node.value:
+            node.left_child = self.__remove(node.left_child, value)
+
+        else:
+            node.right_child = self.__remove(node.right_child, value)
+
+        return node
+
+    def show(self) -> None:
+        self.root.show().render(filename='bst', format='png', cleanup=True, view=False)

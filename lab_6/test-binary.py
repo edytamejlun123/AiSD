@@ -16,8 +16,17 @@ def main() -> None:
     r1 = BinarySearchTree(n1)
     r2 = BinarySearchTree(n2)
     r1.root.left_child = r2
-    r1.insert(5)
+
     assert r1.contains(8) == True
+
+    drzewo = BinarySearchTree(BinaryNode(8))
+    drzewo.insert(3)
+    lista = (5, 6, 8, 2, -2, 17)
+    drzewo.insert_list(lista)
+
+    drzewo.show()
+
+    assert drzewo.contains(6) == True
 
 
 if __name__ == "__main__":
